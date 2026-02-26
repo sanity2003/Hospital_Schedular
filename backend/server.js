@@ -10,11 +10,15 @@ const PORT = process.env.PORT || 5000;
 
 // ─── Middleware ────────────────────────────────────────────────────────────────
 // CORS configuration: in production set FRONTEND_URL to your deployed client URL.
+// trailing slashes are stripped to avoid mismatches (Render may add a slash).
 // using a wildcard "*" is only safe for local development or APIs meant to be publicly
 // accessible from any origin.
+const frontendOrigin =
+  process.env.FRONTEND_URL &&
+  process.env.FRONTEND_URL.replace(/\/+$/g, "");
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "*",
+    origin: frontendOrigin || "*",
     methods: ["GET", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // enable if you send cookies or auth headers
