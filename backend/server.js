@@ -9,11 +9,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ─── Middleware ────────────────────────────────────────────────────────────────
+// CORS configuration: in production set FRONTEND_URL to your deployed client URL.
+// using a wildcard "*" is only safe for local development or APIs meant to be publicly
+// accessible from any origin.
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || "*",
-    methods: ["GET", "POST", "DELETE"],
-    allowedHeaders: ["Content-Type"],
+    methods: ["GET", "POST", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // enable if you send cookies or auth headers
   })
 );
 app.use(express.json());
