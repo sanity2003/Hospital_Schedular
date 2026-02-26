@@ -1,7 +1,12 @@
 import axios from "axios";
 
+// build-time environment variable -- should include the `/api` path
+// set in Render dashboard or .env (for local dev use `.env.local`)
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL:
+    (import.meta.env.VITE_API_URL &&
+      import.meta.env.VITE_API_URL.replace(/\/+$/, "") + "/api") ||
+    "http://localhost:5000/api",
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });
